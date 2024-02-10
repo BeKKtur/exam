@@ -34,7 +34,7 @@ const NewQuote:React.FC = () => {
         }));
     }
 
-    const tes = (e:React.ChangeEvent <HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const onPut = (e:React.ChangeEvent <HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         setQuotes(prevState => ({
             ...prevState,
             [e.target.name]: e.target.value
@@ -54,7 +54,7 @@ const NewQuote:React.FC = () => {
         }
     }
 
-    const test = async (e:React.FormEvent) => {
+    const putQuote = async (e:React.FormEvent) => {
         e.preventDefault()
         try {
             await axiosApi.put('/quote/' + params.id + '.json', {...quotes})
@@ -65,7 +65,7 @@ const NewQuote:React.FC = () => {
 
     return (
         <>
-            <form className="text-lg-start container-fluid pb-5" onSubmit={params.id ? test : onSubmitForm}>
+            <form className="text-lg-start container-fluid pb-5" onSubmit={params.id ? putQuote : onSubmitForm}>
                 <h2>{params.id ? 'Edit post' : 'New post'}</h2>
                 <div className="form-group mb-5">
                     <label className="mb-3">Category</label>
@@ -75,7 +75,7 @@ const NewQuote:React.FC = () => {
                         className="form-control"
                         required
                         value={params.id ? quotes.category : newQuote.category}
-                        onChange={params.id ? tes : onChange}
+                        onChange={params.id ? onPut : onChange}
                     >
                         <option value="">category not selected</option>
                         {CATEGORY.map(category => (
@@ -92,7 +92,7 @@ const NewQuote:React.FC = () => {
                         className="form-control"
                         required
                         value={params.id ? quotes.author : newQuote.author}
-                        onChange={params.id ? tes : onChange}
+                        onChange={params.id ? onPut : onChange}
                     />
                 </div>
                 <div className="form-group d-flex flex-column mb-5">
@@ -103,7 +103,7 @@ const NewQuote:React.FC = () => {
                         cols={10}
                         rows={5}
                         value={params.id ? quotes.quote : newQuote.quote}
-                        onChange={params.id ? tes : onChange}
+                        onChange={params.id ? onPut : onChange}
                     ></textarea>
                 </div>
                 <button type="submit" className="btn btn-success" onClick={() => EditQuote}>Save</button>
